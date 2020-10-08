@@ -11,6 +11,8 @@ public class Ship extends BaseModel {
   private int totalMissiles;
 
   public Ship(int x, int y, int totalMissiles) {
+    this.oldX = -1;
+    this.oldY = -1;
     this.x = x;
     this.y = y;
     this.totalMissiles = totalMissiles;

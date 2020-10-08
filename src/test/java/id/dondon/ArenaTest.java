@@ -81,8 +81,6 @@ public class ArenaTest {
     arena.shotFromPlayerOne(missilesPlayerOne);
     arena.shotFromPlayerTwo(missilesPlayerTwo);
 
-    arena.printGame();
-
     Player winner = arena.getWinner();
     assertNull(winner);
   }

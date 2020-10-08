@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Arena {
 
-  private static final String EMPTY = "_";
+  private static final String EMPTY = "-";
   private static final String ALIVE_STATE = "B";
   private static final String DEAD_STATE = "X";
   private static final String MISSILE_STATE = "O";
@@ -36,49 +36,74 @@ public class Arena {
       }
       System.out.println();
     }
+    System.out.println();
   }
 
   public void setPlayerOne(Player playerOne) {
     this.playerOne = playerOne;
     List<Ship> ships = this.playerOne.getShips();
     drawShips(ships);
+
+    System.out.println(playerOne.getPlayerName() + " Start...");
+    printGame();
   }
 
   public void setPlayerTwo(Player playerTwo) {
     this.playerTwo = playerTwo;
     List<Ship> ships = this.playerTwo.getShips();
     drawShips(ships);
+
+    System.out.println(playerTwo.getPlayerName() + " Start...");
+    printGame();
   }
 
   public void movePlayerOne(int[][] locations) {
     this.playerOne.moveShips(locations);
     List<Ship> ships = this.playerOne.getShips();
     drawShips(ships);
+
+    System.out.println(playerOne.getPlayerName() + " Move...");
+    printGame();
   }
 
   public void movePlayerTwo(int[][] locations) {
     this.playerTwo.moveShips(locations);
     List<Ship> ships = this.playerTwo.getShips();
     drawShips(ships);
+
+    System.out.println(playerTwo.getPlayerName() + " Move...");
+    printGame();
   }
 
   public void shotFromPlayerOne(int[][] missiles) {
     shootTarget(this.playerTwo, missiles);
+
+    System.out.println(playerOne.getPlayerName() + " Shoot...");
+    printGame();
   }
 
   public void shotFromPlayerTwo(int[][] missiles) {
     shootTarget(this.playerOne, missiles);
+
+    System.out.println(playerTwo.getPlayerName() + " Shoot...");
+    printGame();
   }
 
   public Player getWinner() {
+    System.out.println(playerOne.getPlayerName() + ":" + playerOne.getTotalDamage());
+    System.out.println(playerTwo.getPlayerName() + ":" + playerTwo.getTotalDamage());
+
     if (playerOne.getTotalDamage() > playerTwo.getTotalDamage()) {
+      System.out.println(playerTwo.getPlayerName() + " wins");
       return playerTwo;
     }
 
     if (playerOne.getTotalDamage() < playerTwo.getTotalDamage()) {
+      System.out.println(playerOne.getPlayerName() + " wins");
       return playerOne;
     }
 
+    System.out.println("It is a draw");
     return null;
   }
 
@@ -123,8 +148,10 @@ public class Arena {
       if (current instanceof String) {
         String currentState = (String) current;
         if (currentState.equalsIgnoreCase(EMPTY)) {
-          this.maps[oldY][oldX] = EMPTY;
           this.maps[y][x] = ships.get(i);
+          if (oldY >= 0 && oldX >= 0) {
+            this.maps[oldY][oldX] = EMPTY;
+          }
         }
       }
     }
