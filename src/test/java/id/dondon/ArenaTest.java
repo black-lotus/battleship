@@ -1,6 +1,7 @@
 package id.dondon;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class ArenaTest {
     Arena arena = new Arena(5);
 
     Player playerOne = createPlayerOne(5);
-    Player playerTwo = createPlayerOne(5);
+    Player playerTwo = createPlayerTwo(5);
     arena.setPlayerOne(playerOne);
     arena.setPlayerTwo(playerTwo);
 
@@ -28,9 +29,10 @@ public class ArenaTest {
     arena.shotFromPlayerOne(missilesPlayerOne);
     arena.shotFromPlayerTwo(missilesPlayerTwo);
 
+    arena.printGame();
+
     Player winner = arena.getWinner();
     assertEquals(playerOne.getPlayerName(), winner.getPlayerName());
-    arena.printGame();
   }
 
   @Test
@@ -38,7 +40,7 @@ public class ArenaTest {
     Arena arena = new Arena(5);
 
     Player playerOne = createPlayerOne(5);
-    Player playerTwo = createPlayerOne(5);
+    Player playerTwo = createPlayerTwo(5);
     arena.setPlayerOne(playerOne);
     arena.setPlayerTwo(playerTwo);
 
@@ -53,9 +55,36 @@ public class ArenaTest {
     arena.shotFromPlayerOne(missilesPlayerOne);
     arena.shotFromPlayerTwo(missilesPlayerTwo);
 
+    arena.printGame();
+
     Player winner = arena.getWinner();
     assertEquals(playerTwo.getPlayerName(), winner.getPlayerName());
+  }
+
+  @Test
+  public void playerOneAndPlayerTwoHasSameDamage_thenGameIsDraw() {
+    Arena arena = new Arena(5);
+
+    Player playerOne = createPlayerOne(5);
+    Player playerTwo = createPlayerTwo(5);
+    arena.setPlayerOne(playerOne);
+    arena.setPlayerTwo(playerTwo);
+
+
+    int[][] playerOneMove = {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}};
+    int[][] playerTwoMove = {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}};
+    arena.movePlayerOne(playerOneMove);
+    arena.movePlayerTwo(playerTwoMove);
+
+    int[][] missilesPlayerOne = {{0, 3}, {1, 0}, {2, 3}, {3, 3}, {4, 0}};
+    int[][] missilesPlayerTwo = {{0, 1}, {1, 1}, {2, 1}, {3, 0}, {4, 0}};
+    arena.shotFromPlayerOne(missilesPlayerOne);
+    arena.shotFromPlayerTwo(missilesPlayerTwo);
+
     arena.printGame();
+
+    Player winner = arena.getWinner();
+    assertNull(winner);
   }
 
   private Player createPlayerOne(int totalShip) {

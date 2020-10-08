@@ -72,11 +72,11 @@ public class Arena {
 
   public Player getWinner() {
     if (playerOne.getTotalDamage() > playerTwo.getTotalDamage()) {
-      return playerOne;
+      return playerTwo;
     }
 
     if (playerOne.getTotalDamage() < playerTwo.getTotalDamage()) {
-      return playerTwo;
+      return playerOne;
     }
 
     return null;
@@ -85,9 +85,9 @@ public class Arena {
   private void shootTarget(Player playerTarget, int[][] missiles) {
     int size = missiles.length;
     for (int i = 0; i < size; i++) {
-      int[] misile = missiles[i];
-      int x = misile[0];
-      int y = misile[1];
+      int[] missile = missiles[i];
+      int x = missile[0];
+      int y = missile[1];
 
       int score = shootShips(x, y);
       playerTarget.setTotalDamage(playerTarget.getTotalDamage() + score);
@@ -95,17 +95,17 @@ public class Arena {
   }
 
   private int shootShips(int x, int y) {
-    Object object = this.maps[x][y];
+    Object object = this.maps[y][x];
     if (object instanceof Ship) {
       Ship ship = (Ship) object;
       if (ship.getShipState().equals(ShipState.ALIVE) && ship.getX() == x && ship.getY() == y) {
-        this.maps[x][y] = DEAD_STATE;
+        this.maps[y][x] = DEAD_STATE;
         return 1;
       }
     }
 
     if (object instanceof String) {
-      this.maps[x][y] = MISSILE_STATE;
+      this.maps[y][x] = MISSILE_STATE;
     }
 
     return 0;
@@ -127,13 +127,7 @@ public class Arena {
           this.maps[y][x] = ships.get(i);
         }
       }
-
-
     }
-  }
-
-  private boolean isCollided() {
-    return false;
   }
 
 }
