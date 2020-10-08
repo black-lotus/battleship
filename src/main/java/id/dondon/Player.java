@@ -2,7 +2,7 @@ package id.dondon;
 
 import java.util.List;
 
-public class Player {
+public class Player extends BaseModel {
 
   private String playerName;
   private List<Ship> ships;
@@ -41,4 +41,10 @@ public class Player {
   public void setTotalDamage(int totalDamage) {
     this.totalDamage = totalDamage;
   }
+
+  @Override
+  public String toString() {
+    return playerName;
+  }
+
 }

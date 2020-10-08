@@ -1,6 +1,6 @@
 package id.dondon;
 
-public class Ship {
+public class Ship extends BaseModel {
 
   private int x;
   private int y;
@@ -67,4 +67,5 @@ public class Ship {
   public String toString() {
     return shipState.equals(ShipState.ALIVE) ? "B" : "X";
   }
+
 }

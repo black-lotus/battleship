@@ -14,7 +14,7 @@ public class Arena {
   private Player playerTwo;
 
   public Arena(int mapSize) {
-    this.maps = new String[mapSize][mapSize];
+    this.maps = new Object[mapSize][mapSize];
     resetMaps();
   }
 
@@ -114,29 +114,18 @@ public class Arena {
   private void drawShips(List<Ship> ships) {
     int size = ships.size();
     for (int i = 0; i < size; i++) {
-      ShipState shipState = ships.get(i).getShipState();
       int x = ships.get(i).getX();
       int y = ships.get(i).getY();
       int oldX = ships.get(i).getOldX();
       int oldY = ships.get(i).getOldY();
 
-      String state = ALIVE_STATE;
-      if (shipState.equals(ShipState.DEAD)) {
-        state = DEAD_STATE;
-      }
-
       Object current = this.maps[y][x];
-      if (current instanceof Ship) {
-        Ship ship = (Ship) current;
-        if (ship.getShipState().equals(ShipState.ALIVE)) {
-          this.maps[oldY][oldX] = EMPTY;
-          this.maps[y][x] = state;
-        }
-      } else if (current instanceof String) {
+      if (current instanceof String) {
         String currentState = (String) current;
-//        if (currentState.equalsIgnoreCase(MISSILE_STATE)) {
-//
-//        }
+        if (currentState.equalsIgnoreCase(EMPTY)) {
+          this.maps[oldY][oldX] = EMPTY;
+          this.maps[y][x] = ships.get(i);
+        }
       }
 
 
