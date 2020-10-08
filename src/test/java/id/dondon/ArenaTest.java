@@ -1,5 +1,7 @@
 package id.dondon;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -10,8 +12,10 @@ public class ArenaTest {
   public void setPlayers() {
     Arena arena = new Arena(5);
 
-    arena.setPlayerOne(createPlayerOne(5));
-    arena.setPlayerTwo(createPlayerTwo(5));
+    Player playerOne = createPlayerOne(5);
+    Player playerTwo = createPlayerOne(5);
+    arena.setPlayerOne(playerOne);
+    arena.setPlayerTwo(playerTwo);
 
 
     int[][] playerOneMove = {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}};
@@ -24,6 +28,9 @@ public class ArenaTest {
     int[][] mislessPlayerTwo = {{0, 1}, {1, 0}, {2, 0}, {3, 0}, {4, 0}};
     arena.shotFromPlayerOne(mislessPlayerOne);
     arena.shotFromPlayerTwo(mislessPlayerTwo);
+
+    Player winner = arena.getWinner();
+    assertEquals(playerOne, winner);
   }
 
   private Player createPlayerOne(int totalShip) {

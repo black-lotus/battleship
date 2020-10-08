@@ -6,10 +6,12 @@ public class Player {
 
   private String playerName;
   private List<Ship> ships;
+  private int totalDamage;
 
   public Player(String playerName, List<Ship> ships) {
     this.playerName = playerName;
     this.ships = ships;
+    this.totalDamage = 0;
   }
 
   public String getPlayerName() {
@@ -32,5 +34,11 @@ public class Player {
     }
   }
 
+  public int getTotalDamage() {
+    return totalDamage;
+  }
 
+  public void setTotalDamage(int totalDamage) {
+    this.totalDamage = totalDamage;
+  }
 }

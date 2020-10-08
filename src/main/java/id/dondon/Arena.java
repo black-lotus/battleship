@@ -63,38 +63,52 @@ public class Arena {
   }
 
   public void shotFromPlayerOne(int[][] missiles) {
-    shootTarget(missiles, this.playerTwo.getShips());
+    shootTarget(this.playerTwo, missiles);
   }
 
   public void shotFromPlayerTwo(int[][] missiles) {
-    shootTarget(missiles, this.playerOne.getShips());
+    shootTarget(this.playerOne, missiles);
   }
 
   public Player getWinner() {
-    return this.playerOne;
+    if (playerOne.getTotalDamage() > playerTwo.getTotalDamage()) {
+      return playerOne;
+    }
+
+    if (playerOne.getTotalDamage() < playerTwo.getTotalDamage()) {
+      return playerTwo;
+    }
+
+    return null;
   }
 
-  private void shootTarget(int[][] missiles, List<Ship> ships) {
+  private void shootTarget(Player playerTarget, int[][] missiles) {
     int size = missiles.length;
     for (int i = 0; i < size; i++) {
       int[] misile = missiles[i];
       int x = misile[0];
       int y = misile[1];
 
-      shootShips(x, y, ships);
+      int score = shootShips(x, y);
+      playerTarget.setTotalDamage(playerTarget.getTotalDamage() + score);
     }
   }
 
-  private void shootShips(int x, int y, List<Ship> ships) {
-    int size = ships.size();
-    for (int i = 0; i < size; i++) {
-      Ship ship = ships.get(i);
-      ShipState shipState = ship.getShipState();
-      if (shipState.equals(ShipState.ALIVE) &&
-          x == ship.getX() && y == ship.getY()) {
-        ship.setShipState(ShipState.DEAD);
+  private int shootShips(int x, int y) {
+    Object object = this.maps[x][y];
+    if (object instanceof Ship) {
+      Ship ship = (Ship) object;
+      if (ship.getShipState().equals(ShipState.ALIVE) && ship.getX() == x && ship.getY() == y) {
+        this.maps[x][y] = DEAD_STATE;
+        return 1;
       }
     }
+
+    if (object instanceof String) {
+      this.maps[x][y] = MISSILE_STATE;
+    }
+
+    return 0;
   }
 
   private void drawShips(List<Ship> ships) {
